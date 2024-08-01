@@ -137,6 +137,19 @@ const baseStyles = css`
     line-height: 1;
     font-size: ${theme.fontSizes.xlarge}; /* 16px */
     color: ${theme.colors.black};
+    letter-spacing: -0.14px;
+    background-color: ${theme.colors.bgGray};
+  }
+
+  .wrapper {
+    padding: 0 16px;
+  }
+
+  .page-title {
+    padding: 32px 0 20px 16px;
+    font-weight: bold;
+    font-size: ${theme.fontSizes.xxlarge};
+    background-color: ${theme.colors.white};
   }
 `;
 
