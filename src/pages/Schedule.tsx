@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 import { css } from '@emotion/react';
+import dayjs from 'dayjs';
 
 import CalendarComponent from '@/components/Calendar/Calendar';
+import dayScheduleList from '@/components/Calendar/dayDummy';
+import DaySchedule from '@/components/Calendar/DaySchedule';
 import theme from '@/styles/theme';
 import { EventModel } from '@/types/calendar';
-
 const scheduleList: EventModel[] = [
   {
     id: 1,
@@ -102,7 +104,7 @@ const scheduleList: EventModel[] = [
 const SchedulePage = () => {
   const [schedule, setSchedule] = useState(scheduleList);
   const [activeDate, setActiveDate] = useState(new Date());
-
+  const now = dayjs(activeDate).format('YYYY-MM-DD');
   return (
     <>
       <h1 className='page-title'>일정</h1>
@@ -113,6 +115,8 @@ const SchedulePage = () => {
           setActiveDate={setActiveDate}
         />
       </div>
+
+      <DaySchedule date={now} schedules={dayScheduleList} />
     </>
   );
 };
