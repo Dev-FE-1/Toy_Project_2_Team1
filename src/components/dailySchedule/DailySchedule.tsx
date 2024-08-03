@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { css } from '@emotion/react';
 import { HiChevronRight } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 import { ScheduleModel } from '@/types/schedule';
@@ -15,6 +16,7 @@ interface DailyScheduleProps {
 
 // 일정 컴포넌트
 const DailySchedule = ({ date, schedules }: DailyScheduleProps) => {
+  const navigate = useNavigate();
   const [filteredSchedules, setFilteredSchedules] = useState<ScheduleModel[]>([]);
 
   // useCallback을 사용하여 필터링 함수 메모이제이션
@@ -28,6 +30,10 @@ const DailySchedule = ({ date, schedules }: DailyScheduleProps) => {
     filterSchedules();
   }, [filterSchedules]);
 
+  const handleClick = (schedule: ScheduleModel) => {
+    navigate(`/schedule/${schedule.id}`);
+  };
+
   return (
     <div css={dailyScheduleWrap}>
       <h2>{formatDate(date)}</h2>
@@ -40,7 +46,11 @@ const DailySchedule = ({ date, schedules }: DailyScheduleProps) => {
             <li css={emptyListStyle}>일정이 없습니다.</li>
           ) : (
             filteredSchedules.map((schedule, idx) => (
-              <li key={`schedule-${schedule.id || idx}`} css={scheduleItemStyle(schedule)}>
+              <li
+                key={`schedule-${schedule.id || idx}`}
+                css={scheduleItemStyle(schedule)}
+                onClick={() => handleClick(schedule)}
+              >
                 <h3>
                   {schedule.subject}
                   <HiChevronRight />
