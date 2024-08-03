@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import { css } from '@emotion/react';
 import { HiChevronRight } from 'react-icons/hi2';
 
@@ -13,7 +15,18 @@ interface DailyScheduleProps {
 
 // 일정 컴포넌트
 const DailySchedule = ({ date, schedules }: DailyScheduleProps) => {
-  const filteredSchedules = schedules.filter((schedule) => isDailySchedule(date, schedule));
+  const [filteredSchedules, setFilteredSchedules] = useState<ScheduleModel[]>([]);
+
+  // useCallback을 사용하여 필터링 함수 메모이제이션
+  const filterSchedules = useCallback(() => {
+    const filtered = schedules.filter((schedule) => isDailySchedule(date, schedule));
+    setFilteredSchedules(filtered);
+  }, [date, schedules]);
+
+  // 컴포넌트가 마운트 되거나 date, schedules가 변경될 때 필터링 실행
+  useEffect(() => {
+    filterSchedules();
+  }, [filterSchedules]);
 
   return (
     <div css={dailyScheduleWrap}>
